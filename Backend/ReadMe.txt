@@ -1,1 +1,1 @@
-[Part_B] # Backend : FastAPI + DB + ... 작업공간입니다.
+Back : FastAPI + DB + ... 작업공간입니다.
