@@ -1,21 +1,17 @@
-# backend/models.py
-from sqlalchemy.orm import declarative_base
-from sqlalchemy import (
-    Column, Integer, String, Float, DateTime, func
-)
+# Backend/models.py
+from sqlalchemy import Column, Integer, String, Text, DateTime, Index, text
+from .database import Base
 
-Base = declarative_base()
+class FinalProjectResult(Base):
+    __tablename__ = "final_project_results"
 
-class ImageAnalysis(Base):
-    __tablename__ = "image_analysis"
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    class_name = Column(String(255), nullable=False)
+    class_info = Column(Text, nullable=True)
+    recomm = Column(Text, nullable=True)
+    image_path = Column(String(500), nullable=False)
+    created_at = Column(DateTime, server_default=text("CURRENT_TIMESTAMP"))
+    updated_at = Column(DateTime, server_default=text("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"))
 
-    id          = Column(Integer, primary_key=True, index=True)
-    class_name  = Column(String(50), nullable=False, index=True)
-    confidence  = Column(Float, nullable=False)
-    x1          = Column(Float, nullable=False)
-    y1          = Column(Float, nullable=False)
-    x2          = Column(Float, nullable=False)
-    y2          = Column(Float, nullable=False)
-    image_path  = Column(String(200), nullable=False)
-    created_at  = Column(DateTime(timezone=True), server_default=func.now(), index=True)
-
+Index("idx_class_name", FinalProjectResult.class_name)
+Index("idx_created_at", FinalProjectResult.created_at)
